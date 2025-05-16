@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\NotificationHelper;
 use App\Models\Customer;
 use App\Models\Rental;
 use Carbon\Carbon;
@@ -175,6 +176,13 @@ class RentalController extends Controller
             ]);
 
             DB::commit();
+
+            NotificationHelper::notifyAdmins(
+                'Pemesanan Baru',
+                "Pemesanan baru telah dibuat oleh {$rental->customer_name}.",
+                'booking',
+                route('bookings.manage.show', $rental->id)
+            );
 
             return redirect()->route('booking.confirmation', $rental->id)
                 ->with('success', 'Booking successful. Please proceed to payment.');

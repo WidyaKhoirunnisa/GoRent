@@ -61,4 +61,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Rental::class, 'user_id', 'id');
     }
+
+    /**
+     * Get the notifications associated with the user.
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
+    }
+
+    /**
+     * Get the unread notifications count for the user.
+     */
+    public function unreadNotificationsCount()
+    {
+        return $this->notifications()->unread()->count();
+    }
 }

@@ -15,19 +15,61 @@ class CustomerController extends Controller
     /**
      * Display the rental history for the authenticated user.
      */
-    public function history()
+    public function history(Request $request)
     {
         // First, update any expired pending bookings
         $this->updateExpiredBookings();
-
+        
         // Get all rentals for the authenticated user
-        $rentals = Rental::where('user_id', Auth::id())
-            ->with('vehicle')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
+        $query = Rental::where('user_id', Auth::id())
+            ->with('vehicle');
+        
+        // Apply filter if provided
+        $filter = $request->query('filter');
+        if ($filter && in_array($filter, ['pending', 'paid', 'confirmed', 'completed', 'cancelled'])) {
+            $query->where('payment_status', $filter);
+        }
+        
+        // Apply search if provided
+        $search = $request->query('search');
+        if ($search) {
+            $query->whereHas('vehicle', function($q) use ($search) {
+                $q->where('brand', 'like', "%{$search}%")
+                  ->orWhere('type', 'like', "%{$search}%")
+                  ->orWhere('no_plat', 'like', "%{$search}%");
+            });
+        }
+        
+        // Apply sorting
+        $sort = $request->query('sort', 'newest');
+        switch ($sort) {
+            case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'price_high':
+                $query->orderBy('total_payment', 'desc');
+                break;
+            case 'price_low':
+                $query->orderBy('total_payment', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
+        // Execute the query
+        $rentals = $query->get();
+        
+        // Get all rentals for the stats at the top (this needs to be all rentals regardless of filter)
+        $allRentals = Rental::where('user_id', Auth::id())->get();
+        
         return view('customer.history', [
-            'rentals' => $rentals
+            'rentals' => $rentals,
+            'allRentals' => $allRentals,
+            'activeFilter' => $filter ?: 'all',
+            'activeSort' => $sort,
+            'search' => $search
         ]);
     }
 
@@ -103,7 +145,7 @@ class CustomerController extends Controller
         }
 
         // Cek status pembayaran
-        if (!in_array($rental->payment_status, ['confirmed', 'completed'])) {
+        if (!in_array($rental->payment_status, ['paid', 'confirmed', 'completed'])) {
             abort(403, 'Payment not completed.');
         }
 

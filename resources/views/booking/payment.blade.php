@@ -1,220 +1,360 @@
 @extends('layouts.app')
 
+@section('title', 'Pembayaran')
+
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-5xl mx-auto">
         <div class="mb-6">
-            <a href="{{ route('booking.confirmation', $rental->id) }}" class="inline-flex items-center text-indigo-600">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+            <a href="{{ url()->previous() }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 transition-colors font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2">
                     <path d="M19 12H5"></path>
                     <path d="M12 19l-7-7 7-7"></path>
                 </svg>
-                Back to Booking Details
+                Kembali
             </a>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-            <div class="p-6 bg-indigo-50 border-b">
-                <h1 class="text-2xl font-bold">Complete Your Payment</h1>
-                <p class="text-gray-600">Booking ID: #{{ $rental->id }}</p>
-            </div>
-            
-            <!-- Payment Deadline Notice -->
-            @php
-                $deadline = $rental->created_at->addHour();
-                $currentTime = now();
-                $remainingSeconds = max(0, $deadline->timestamp - $currentTime->timestamp);
-                $hours = floor($remainingSeconds / 3600);
-                $minutes = floor(($remainingSeconds % 3600) / 60);
-                $seconds = $remainingSeconds % 60;
-                $timeLeft = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
-                $isExpired = $remainingSeconds <= 0;
-            @endphp
-
-            <div class="p-4 bg-yellow-50 border-b border-yellow-100" 
-                x-data="{ 
-                    hours: {{ $hours }},
-                    minutes: {{ $minutes }}, 
-                    seconds: {{ $seconds }}, 
-                    expired: {{ $isExpired ? 'true' : 'false' }},
-                    timer: null,
-                    init() {
-                        if (this.expired) return;
-                        
-                        this.timer = setInterval(() => {
-                            if (this.seconds > 0) {
-                                this.seconds--;
-                            } else if (this.minutes > 0) {
-                                this.minutes--;
-                                this.seconds = 59;
-                            } else if (this.hours > 0) {
-                                this.hours--;
-                                this.minutes = 59;
-                                this.seconds = 59;
-                            } else {
-                                this.expired = true;
-                                clearInterval(this.timer);
-                            }
-                        }, 1000);
-                    },
-                    formattedTime() {
-                        return `${this.hours.toString().padStart(2, '0')}:${this.minutes.toString().padStart(2, '0')}:${this.seconds.toString().padStart(2, '0')}`;
-                    }
-                }">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+            <!-- Header Section -->
+            <div class="p-8 bg-gradient-to-r from-indigo-600 to-purple-700 text-white">
+                <div class="flex items-center">
+                    <div class="bg-white/20 p-3 rounded-full mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                         </svg>
-                        <span class="font-medium">Payment Deadline:</span>
                     </div>
-                    <div x-show="!expired" class="font-bold" x-text="formattedTime()"></div>
-                    <div x-show="expired" class="font-bold text-red-600">Time expired!</div>
-                </div>
-                <div x-show="expired" class="mt-2">
-                    <p class="text-red-600">Your booking session has expired. Please start a new booking.</p>
-                    <a href="{{ route('booking.index') }}" class="inline-block mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                        Start New Booking
-                    </a>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold">Pembayaran</h1>
+                        <p class="text-white/90 mt-1">Selesaikan pembayaran untuk mengkonfirmasi pemesanan Anda</p>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Rest of the payment page remains unchanged -->
-            <div class="p-6">
-                <div class="mb-6">
-                    <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
-                    
-                    <div class="flex flex-col md:flex-row mb-6">
-                        <div class="md:w-1/3 mb-4 md:mb-0 md:pr-6">
-                            @if($rental->vehicle->image)
-                                <img src="{{ asset('storage/vehicles/' . basename($rental->vehicle->image)) }}" alt="{{ $rental->vehicle->brand }}" class="w-full rounded-lg">
-                            @else
-                                <img src="/placeholder.svg?height=200&width=300" alt="{{ $rental->vehicle->brand }}" class="w-full rounded-lg">
-                            @endif
-                        </div>
-                        
-                        <div class="md:w-2/3">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 class="text-xl font-bold">{{ $rental->vehicle->brand }}</h3>
-                                    <p class="text-gray-600">{{ ucfirst($rental->vehicle->type) }}</p>
+
+            <!-- Payment Deadline Notice -->
+            <div class="p-5 bg-amber-50 border-b border-amber-100">
+                <div class="flex items-center">
+                    <div class="bg-amber-100 p-2 rounded-full mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-amber-800">Batas Waktu Pembayaran: <span class="font-bold">{{ $rental->created_at->addHour()->format('d M Y H:i') }}</span></p>
+                        <p class="text-sm text-amber-700">Harap selesaikan pembayaran Anda dalam waktu 1 jam untuk mengkonfirmasi pemesanan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-8">
+                <!-- Order Summary -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2 text-indigo-600">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            <path d="M9 14h6"></path>
+                            <path d="M9 18h6"></path>
+                            <path d="M9 10h6"></path>
+                        </svg>
+                        Ringkasan Pesanan
+                    </h2>
+
+                    <div class="bg-gray-50 rounded-2xl p-6">
+                        <div class="flex flex-col md:flex-row mb-6">
+                            <div class="md:w-1/3 mb-4 md:mb-0 md:pr-6">
+                                <div class="bg-white p-4 rounded-xl shadow-sm h-full">
+                                    <p class="text-sm text-gray-500 mb-1">ID Pemesanan</p>
+                                    <p class="font-medium text-gray-900">{{ $rental->id }}</p>
+                                    
+                                    <div class="border-t border-gray-100 my-3"></div>
+                                    
+                                    <p class="text-sm text-gray-500 mb-1">Kendaraan</p>
+                                    <p class="font-medium text-gray-900">{{ $rental->vehicle->brand }} ({{ ucfirst($rental->vehicle->type) }})</p>
+                                    
+                                    <div class="border-t border-gray-100 my-3"></div>
+                                    
+                                    <p class="text-sm text-gray-500 mb-1">Periode Sewa</p>
+                                    <p class="font-medium text-gray-900">{{ $rental->rental_date->format('d M Y') }} - {{ $rental->return_date->format('d M Y') }}</p>
                                 </div>
                             </div>
                             
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <p class="text-sm text-gray-600">Pickup Date</p>
-                                    <p class="font-medium">{{ $rental->rental_date->format('M d, Y') }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">Return Date</p>
-                                    <p class="font-medium">{{ $rental->return_date->format('M d, Y') }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">Duration</p>
-                                    <p class="font-medium">{{ $rental->duration }} {{ Str::plural('day', $rental->duration) }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-600">Daily Rate</p>
-                                    <p class="font-medium">${{ $rental->vehicle->price }}/day</p>
-                                </div>
-                            </div>
-                            
-                            <div class="border-t border-gray-200 pt-4">
-                                <div class="flex justify-between font-bold">
-                                    <span>Total Amount:</span>
-                                    <span class="text-indigo-600">${{ number_format($rental->total_payment, 2) }}</span>
+                            <div class="md:w-2/3">
+                                <div class="bg-white p-4 rounded-xl shadow-sm h-full">
+                                    <h3 class="font-medium text-gray-900 mb-4">Detail Pembayaran</h3>
+                                    
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Harga Sewa ({{ $rental->duration }} hari)</span>
+                                            <span>Rp {{ number_format($rental->vehicle->price * $rental->duration, 0, ',', '.') }}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Biaya Layanan</span>
+                                            <span>Rp 0</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Pajak</span>
+                                            <span>Termasuk</span>
+                                        </div>
+                                        <div class="flex justify-between pt-3 border-t border-gray-100">
+                                            <span class="font-bold text-gray-900">Total Pembayaran</span>
+                                            <span class="font-bold text-indigo-600">Rp {{ number_format($rental->total_payment, 0, ',', '.') }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Payment Methods -->
                 <div class="mb-8">
-                    <h2 class="text-xl font-semibold mb-4">Payment Method</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="border rounded-lg p-4 cursor-pointer hover:border-indigo-500 transition-colors">
-                            <div class="flex items-center mb-2">
-                                <input type="radio" id="credit_card" name="payment_method" value="credit_card" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300" checked>
-                                <label for="credit_card" class="ml-2 block text-sm font-medium text-gray-700">Credit Card</label>
+                    <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2 text-indigo-600">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        Metode Pembayaran
+                    </h2>
+
+                    <form action="{{ route('booking.process-payment', $rental->id) }}" method="POST" class="bg-gray-50 rounded-2xl p-6">
+                        @csrf
+                        
+                        <div class="mb-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="border border-gray-200 rounded-xl p-4 bg-white cursor-pointer hover:border-indigo-500 transition-colors relative payment-option">
+                                    <input type="radio" name="payment_method" id="payment_bank" value="bank_transfer" class="sr-only payment-radio" checked>
+                                    <label for="payment_bank" class="flex items-center cursor-pointer">
+                                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center payment-radio-circle">
+                                            <div class="w-3 h-3 bg-indigo-600 rounded-full hidden payment-radio-dot"></div>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Transfer Bank</p>
+                                            <p class="text-sm text-gray-500">BCA, BNI, Mandiri, BRI</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-xl p-4 bg-white cursor-pointer hover:border-indigo-500 transition-colors relative payment-option">
+                                    <input type="radio" name="payment_method" id="payment_ewallet" value="e_wallet" class="sr-only payment-radio">
+                                    <label for="payment_ewallet" class="flex items-center cursor-pointer">
+                                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center payment-radio-circle">
+                                            <div class="w-3 h-3 bg-indigo-600 rounded-full hidden payment-radio-dot"></div>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">E-Wallet</p>
+                                            <p class="text-sm text-gray-500">OVO, GoPay, DANA, LinkAja</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-xl p-4 bg-white cursor-pointer hover:border-indigo-500 transition-colors relative payment-option">
+                                    <input type="radio" name="payment_method" id="payment_qris" value="qris" class="sr-only payment-radio">
+                                    <label for="payment_qris" class="flex items-center cursor-pointer">
+                                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center payment-radio-circle">
+                                            <div class="w-3 h-3 bg-indigo-600 rounded-full hidden payment-radio-dot"></div>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium text-gray-900">QRIS</p>
+                                            <p class="text-sm text-gray-500">Scan untuk membayar</p>
+                                        </div>
+                                    </label>
+                                </div>
                             </div>
-                            <div class="flex justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-gray-400">
+                        </div>
+                        
+                        <!-- Bank Transfer Details -->
+                        <div id="bank_transfer_details" class="bg-white p-6 rounded-xl border border-gray-200 mb-6">
+                            <h3 class="font-medium text-gray-900 mb-4">Detail Transfer Bank</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="bank_name" class="block text-sm font-medium text-gray-700 mb-1">Pilih Bank</label>
+                                    <select id="bank_name" name="bank_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                                        <option value="bca">Bank BCA</option>
+                                        <option value="bni">Bank BNI</option>
+                                        <option value="mandiri">Bank Mandiri</option>
+                                        <option value="bri">Bank BRI</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="account_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Pemilik Rekening</label>
+                                    <input type="text" id="account_name" name="account_name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" required>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p class="text-sm text-gray-700">Setelah melakukan pembayaran, Anda akan menerima email konfirmasi dengan detail pemesanan Anda.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- E-Wallet Details (Hidden by default) -->
+                        <div id="e_wallet_details" class="bg-white p-6 rounded-xl border border-gray-200 mb-6 hidden">
+                            <h3 class="font-medium text-gray-900 mb-4">Detail E-Wallet</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="ewallet_type" class="block text-sm font-medium text-gray-700 mb-1">Pilih E-Wallet</label>
+                                    <select id="ewallet_type" name="ewallet_type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                                        <option value="ovo">OVO</option>
+                                        <option value="gopay">GoPay</option>
+                                        <option value="dana">DANA</option>
+                                        <option value="linkaja">LinkAja</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
+                                    <input type="text" id="phone_number" name="phone_number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                                </div>
+                            </div>
+                            
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p class="text-sm text-gray-700">Anda akan menerima notifikasi pembayaran di aplikasi e-wallet Anda. Harap selesaikan pembayaran dalam waktu 1 jam.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- QRIS Details (Hidden by default) -->
+                        <div id="qris_details" class="bg-white p-6 rounded-xl border border-gray-200 mb-6 hidden">
+                            <h3 class="font-medium text-gray-900 mb-4">Pembayaran QRIS</h3>
+                            
+                            <div class="flex flex-col items-center mb-6">
+                                <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                                    <img src="/placeholder.svg?height=200&width=200" alt="QRIS Code" class="w-48 h-48 mx-auto">
+                                </div>
+                                
+                                <p class="text-sm text-gray-700 mb-2">Scan kode QR menggunakan aplikasi e-wallet atau mobile banking Anda</p>
+                                <button type="button" class="text-indigo-600 text-sm font-medium hover:text-indigo-800 transition-colors">
+                                    Unduh Kode QR
+                                </button>
+                            </div>
+                            
+                            <div class="bg-indigo-50 p-4 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p class="text-sm text-gray-700">Pembayaran akan dikonfirmasi secara otomatis setelah Anda menyelesaikan pembayaran.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button type="submit" class="px-8 py-4 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-colors shadow-md hover:shadow-indigo-500/30 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2">
                                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                                     <line x1="1" y1="10" x2="23" y2="10"></line>
                                 </svg>
-                            </div>
+                                Bayar Sekarang
+                            </button>
                         </div>
-                        
-                        <div class="border rounded-lg p-4 cursor-pointer hover:border-indigo-500 transition-colors">
-                            <div class="flex items-center mb-2">
-                                <input type="radio" id="paypal" name="payment_method" value="paypal" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
-                                <label for="paypal" class="ml-2 block text-sm font-medium text-gray-700">PayPal</label>
-                            </div>
-                            <div class="flex justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-gray-400">
-                                    <path d="M7 11l5-5 5 5"></path>
-                                    <path d="M12 6v12"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        
-                        <div class="border rounded-lg p-4 cursor-pointer hover:border-indigo-500 transition-colors">
-                            <div class="flex items-center mb-2">
-                                <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
-                                <label for="bank_transfer" class="ml-2 block text-sm font-medium text-gray-700">Bank Transfer</label>
-                            </div>
-                            <div class="flex justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-gray-400">
-                                    <polyline points="9 11 12 14 22 4"></polyline>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Credit Card Form (shown by default) -->
-                    <div id="credit_card_form" class="border rounded-lg p-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div class="md:col-span-2">
-                                <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
-                                <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" 
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            </div>
-                            
-                            <div>
-                                <label for="expiry_date" class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                                <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" 
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            </div>
-                            
-                            <div>
-                                <label for="cvv" class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
-                                <input type="text" id="cvv" name="cvv" placeholder="123" 
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            </div>
-                            
-                            <div class="md:col-span-2">
-                                <label for="card_holder" class="block text-sm font-medium text-gray-700 mb-1">Card Holder Name</label>
-                                <input type="text" id="card_holder" name="card_holder" placeholder="John Doe" 
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
                 
-                <div class="flex justify-end">
-                    <form action="{{ route('booking.process-payment', $rental->id) }}" method="POST" x-bind:class="{ 'opacity-50 pointer-events-none': expired }">
-                        @csrf
-                        <input type="hidden" name="payment_method" value="credit_card">
-                        <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            x-bind:disabled="expired">
-                            Pay Now ${{ number_format($rental->total_payment, 2) }}
-                        </button>
-                    </form>
+                <!-- Payment Security -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        Pembayaran Aman
+                    </h3>
+                    
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1 bg-white p-4 rounded-xl shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                <h4 class="font-medium text-gray-900">Transaksi Aman</h4>
+                            </div>
+                            <p class="text-sm text-gray-600">Semua transaksi pembayaran dilindungi dengan enkripsi SSL 256-bit.</p>
+                        </div>
+                        
+                        <div class="flex-1 bg-white p-4 rounded-xl shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+                                </svg>
+                                <h4 class="font-medium text-gray-900">Jaminan Harga</h4>
+                            </div>
+                            <p class="text-sm text-gray-600">Tidak ada biaya tersembunyi. Apa yang Anda lihat adalah apa yang Anda bayar.</p>
+                        </div>
+                        
+                        <div class="flex-1 bg-white p-4 rounded-xl shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <h4 class="font-medium text-gray-900">Pembayaran Fleksibel</h4>
+                            </div>
+                            <p class="text-sm text-gray-600">Berbagai metode pembayaran tersedia untuk kenyamanan Anda.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentRadios = document.querySelectorAll('.payment-radio');
+        const bankDetails = document.getElementById('bank_transfer_details');
+        const ewalletDetails = document.getElementById('e_wallet_details');
+        const qrisDetails = document.getElementById('qris_details');
+        
+        function updatePaymentOptions() {
+            // Hide all payment details sections
+            bankDetails.classList.add('hidden');
+            ewalletDetails.classList.add('hidden');
+            qrisDetails.classList.add('hidden');
+            
+            // Show the selected payment details section
+            if (document.getElementById('payment_bank').checked) {
+                bankDetails.classList.remove('hidden');
+            } else if (document.getElementById('payment_ewallet').checked) {
+                ewalletDetails.classList.remove('hidden');
+            } else if (document.getElementById('payment_qris').checked) {
+                qrisDetails.classList.remove('hidden');
+            }
+            
+            // Update radio button styles
+            paymentRadios.forEach(radio => {
+                const option = radio.closest('.payment-option');
+                const dot = option.querySelector('.payment-radio-dot');
+                const circle = option.querySelector('.payment-radio-circle');
+                
+                if (radio.checked) {
+                    option.classList.add('border-indigo-500', 'bg-indigo-50');
+                    dot.classList.remove('hidden');
+                    circle.classList.add('border-indigo-600');
+                } else {
+                    option.classList.remove('border-indigo-500', 'bg-indigo-50');
+                    dot.classList.add('hidden');
+                    circle.classList.remove('border-indigo-600');
+                }
+            });
+        }
+        
+        // Add event listeners to radio buttons
+        paymentRadios.forEach(radio => {
+            radio.addEventListener('change', updatePaymentOptions);
+        });
+        
+        // Initial update
+        updatePaymentOptions();
+    });
+</script>
 @endsection

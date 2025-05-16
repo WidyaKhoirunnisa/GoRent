@@ -7,12 +7,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Tampilkan form profil pengguna.
      */
     public function edit(Request $request): View
     {
@@ -22,43 +23,45 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Perbarui informasi profil pengguna.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
 
+        // Reset verifikasi email jika email berubah
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
 
-        if ($user->role !== 'admin' && $request->hasAny(['name','nik', 'phone', 'address', 'gender'])) {
-            $request->validate([
-                'name'=> 'nullable|string|max:255',
-                'nik' => 'nullable|string|unique:customers,nik,' . $user->id . ',user_id',
-                'phone' => 'nullable|string|max:15',
+        // Jika bukan admin, lanjut update data pelanggan
+        if ($user->role !== 'admin') {
+            $validatedData = $request->validate([
+                'image'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'name'    => 'nullable|string|max:255',
+                'nik'     => 'nullable|string|unique:customers,nik,' . $user->id . ',user_id',
+                'phone'   => 'nullable|string|max:15',
                 'address' => 'nullable|string',
-                'gender' => 'nullable|in:male,female',
+                'gender'  => 'nullable|in:male,female',
             ]);
 
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($user->customer->image && Storage::disk('public')->exists($user->customer->image)) {
+                    Storage::disk('public')->delete($user->customer->image);
+                }
+                
+                $imagePath = $request->file('image')->store('customer', 'public');
+                $validatedData['image'] = 'customer/'.basename($imagePath);
+            }
+
+            // Buat atau update data customer
             if (!$user->customer) {
-                $user->customer()->create([
-                    'name' => $request->name,
-                    'nik' => $request->nik,
-                    'phone' => $request->phone,
-                    'address' => $request->address,
-                    'gender' => $request->gender,
-                ]);
+                $user->customer()->create($validatedData);
             } else {
-                $user->customer->update([
-                    'name' => $request->name,
-                    'nik' => $request->nik,
-                    'phone' => $request->phone,
-                    'address' => $request->address,
-                    'gender' => $request->gender,
-                ]);
+                $user->customer->update($validatedData);
             }
         }
 
@@ -66,7 +69,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
+     * Hapus akun pengguna.
      */
     public function destroy(Request $request): RedirectResponse
     {

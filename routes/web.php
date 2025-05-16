@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ShowController;
 use App\Http\Controllers\ShowdetailsController;
 use App\Http\Controllers\VehicleController;
@@ -24,7 +25,7 @@ Route::get('/', [VehicleController::class, 'homepagecar'])->name('home');
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'App\Http\Middleware\CustomerMiddleware')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -79,7 +80,7 @@ Route::get('/vehicles', [VehicleController::class, 'index'])->name('vehicles');
 Route::get('/vehicles/{vehicle}', [VehicleController::class, 'detail'])->name('vehicles.details');
 
 // Booking routes
-Route::middleware(['auth', 'verified'])->prefix('booking')->name('booking.')->group(function () {
+Route::middleware(['auth', 'App\Http\Middleware\CustomerMiddleware'])->prefix('booking')->name('booking.')->group(function () {
     Route::get('/', [RentalController::class, 'index'])->name('index'); // /booking
     Route::get('/check-availability', [RentalController::class, 'checkAvailability'])->name('check-availability');
     Route::get('/vehicle/{vehicle}', [RentalController::class, 'rentVehicle'])->name('book-vehicle');
@@ -94,6 +95,15 @@ Route::middleware(['auth', 'verified'])->prefix('booking')->name('booking.')->gr
     // Receipt
     Route::get('/{rental}/receipt', [CustomerController::class, 'downloadReceipt'])->name('receipt');
 });
+
+// Notification Routes
+Route::middleware(['auth', 'App\Http\Middleware\AdminMiddleware'])->prefix('admin/notifications')->name('notifications.')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('index');
+    Route::get('/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+    Route::patch('/{notification}/mark-as-read', [NotificationController::class, 'markAsRead']);
+    Route::get('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
+});
+
 // Customer routes
 Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {
     Route::get('/history', [CustomerController::class, 'history'])->name('history');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Customer;
@@ -31,7 +32,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -51,6 +52,13 @@ class RegisteredUserController extends Controller
             'address' => null,
             'gender' => null,
         ]);
+
+        NotificationHelper::notifyAdmins(
+            'User Baru Terdaftar',
+            "User {$user->email} telah mendaftar.",
+            'user',
+            route('customers.manage.show', $user->id)
+        );
 
         event(new Registered($user));
 
