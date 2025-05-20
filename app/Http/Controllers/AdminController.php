@@ -38,7 +38,7 @@ class AdminController extends Controller
         // User statistics
         $totalUsers = User::where('role', '!=', 'admin')->orWhereNull('role')->count();
         $totalCustomers = Customer::count();
-        $newUsersThisMonth = User::where('created_at', '>=', Carbon::now()->startOfMonth())->count();
+        $newUsersThisMonth = Customer::where('created_at', '>=', Carbon::now()->startOfMonth())->count();
         
         // Booking statistics
         $totalBookings = Rental::count();

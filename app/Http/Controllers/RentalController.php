@@ -171,7 +171,7 @@ class RentalController extends Controller
                 'return_date' => $returnDate,
                 'total_payment' => $totalPayment,
                 'payment_status' => 'pending',
-                'payment_order_id' => 'ORD-' . $today. '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT),
+                'payment_order_id' => 'ORD-' . $today . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT),
 
             ]);
 
@@ -179,7 +179,7 @@ class RentalController extends Controller
 
             NotificationHelper::notifyAdmins(
                 'Pemesanan Baru',
-                "Pemesanan baru telah dibuat oleh {$rental->customer_name}.",
+                "Pemesanan baru telah dibuat oleh {$rental->customer_name} untuk kendaraan {$vehicle->brand}.",
                 'booking',
                 route('bookings.manage.show', $rental->id)
             );
@@ -254,7 +254,7 @@ class RentalController extends Controller
                 $rental->payment_status = 'expired';
                 $rental->save();
             }
-            
+
             return redirect()->route('customer.history')
                 ->with('error', 'This booking has expired. Please make a new booking.');
         }
@@ -278,11 +278,10 @@ class RentalController extends Controller
 
             return redirect()->route('customer.history')
                 ->with('success', 'Payment successful! Your booking has been confirmed.');
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Payment processing failed: ' . $e->getMessage());
-            
+
             return redirect()->back()
                 ->with('error', 'Payment processing failed. Please try again.');
         }

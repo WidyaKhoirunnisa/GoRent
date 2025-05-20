@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Set locale ke Indonesia
+        config(['app.locale' => 'id']);
         App::setLocale('id');
         Carbon::setLocale('id');
     }

@@ -17,43 +17,43 @@
             <span>Dashboard</span>
         </a>
         
-        <!-- Vehicles Section -->
+        <!-- Kendaraan Section -->
         <div class="mt-4">
-            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Vehicles</p>
+            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Kendaraan</p>
         </div>
-        <a href="{{ route('vehicles.manage.create') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('create') ? 'bg-gray-700' : '' }}">
+        <a href="{{ route('vehicles.manage.create') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('vehicles.manage.create') ? 'bg-gray-700' : '' }}">
             <i class="fas fa-plus-circle mr-3"></i>
-            <span>Add New Car</span>
+            <span>Tambah Kendaraan Baru</span>
         </a>
-        <a href="{{ route('vehicles.manage.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('show') ? 'bg-gray-700' : '' }}">
-            <i class="fas fa-car mr-3"></i>
-            <span>View Cars</span>
+        <a href="{{ route('vehicles.manage.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('vehicles.manage.index') ? 'bg-gray-700' : '' }}">
+            <i class="fas fa-car-side mr-3"></i>
+            <span>Lihat Semua Kendaraan</span>
         </a>
         
-        <!-- Users Section -->
+        <!-- Pengguna Section -->
         <div class="mt-4">
-            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Users</p>
+            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pengguna</p>
         </div>
-        <a href="{{ route('customers.manage.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('customers.index') ? 'bg-gray-700' : '' }}">
+        <a href="{{ route('customers.manage.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('customers.manage.index') ? 'bg-gray-700' : '' }}">
             <i class="fas fa-users mr-3"></i>
-            <span>All Users</span>
+            <span>Semua Pengguna</span>
         </a>
-        <a href="{{ route('customers.manage.create') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('customers.create') ? 'bg-gray-700' : '' }}">
+        <a href="{{ route('customers.manage.create') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('customers.manage.create') ? 'bg-gray-700' : '' }}">
             <i class="fas fa-user-plus mr-3"></i>
-            <span>Add New User</span>
+            <span>Tambah Pengguna Baru</span>
         </a>
         
-        <!-- Bookings Section -->
+        <!-- Pemesanan Section -->
         <div class="mt-4">
-            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Bookings</p>
+            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pemesanan</p>
         </div>
-        <a href="{{ route('bookings.manage.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('rentals.index') ? 'bg-gray-700' : '' }}">
+        <a href="{{ route('bookings.manage.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('bookings.manage.index') ? 'bg-gray-700' : '' }}">
             <i class="fas fa-calendar-alt mr-3"></i>
-            <span>All Bookings</span>
+            <span>Semua Pemesanan</span>
         </a>
-        <a href="{{ route('bookings.manage.create.user-selection') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('rentals.create') ? 'bg-gray-700' : '' }}">
+        <a href="{{ route('bookings.manage.create.user-selection') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('bookings.manage.create.*') ? 'bg-gray-700' : '' }}">
             <i class="fas fa-plus-circle mr-3"></i>
-            <span>Create Booking</span>
+            <span>Buat Pemesanan Baru</span>
         </a>
     </nav>
 </div>

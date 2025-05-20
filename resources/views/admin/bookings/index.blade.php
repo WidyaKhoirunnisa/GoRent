@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Bookings')
-@section('header', 'Manage Bookings')
+@section('title', 'Kelola Pemesanan')
+@section('header', 'Kelola Pemesanan')
 
 @section('content')
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
@@ -11,7 +11,7 @@
                 <i class="fas fa-calendar-check text-2xl"></i>
             </div>
             <div class="ml-4">
-                <p class="text-sm font-medium text-gray-500">Total Bookings</p>
+                <p class="text-sm font-medium text-gray-500">Total Pemesanan</p>
                 <p class="text-2xl font-semibold text-gray-800">{{ $totalRentals ?? 0 }}</p>
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <i class="fas fa-car text-2xl"></i>
             </div>
             <div class="ml-4">
-                <p class="text-sm font-medium text-gray-500">Active Rentals</p>
+                <p class="text-sm font-medium text-gray-500">Sewa Aktif</p>
                 <p class="text-2xl font-semibold text-gray-800">{{ $activeRentals ?? 0 }}</p>
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <i class="fas fa-clock text-2xl"></i>
             </div>
             <div class="ml-4">
-                <p class="text-sm font-medium text-gray-500">Pending Payments</p>
+                <p class="text-sm font-medium text-gray-500">Pembayaran Tertunda</p>
                 <p class="text-2xl font-semibold text-gray-800">{{ $pendingPayments ?? 0 }}</p>
             </div>
         </div>
@@ -47,7 +47,7 @@
                 <i class="fas fa-check-circle text-2xl"></i>
             </div>
             <div class="ml-4">
-                <p class="text-sm font-medium text-gray-500">Completed</p>
+                <p class="text-sm font-medium text-gray-500">Selesai</p>
                 <p class="text-2xl font-semibold text-gray-800">{{ $completedRentals ?? 0 }}</p>
             </div>
         </div>
@@ -56,20 +56,20 @@
 
 <div class="bg-white rounded-lg shadow-md overflow-hidden">
     <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-800">All Bookings</h2>
+        <h2 class="text-lg font-semibold text-gray-800">Semua Pemesanan</h2>
     </div>
     
     <div class="p-6">
-        <!-- Search and Filter -->
+        <!-- Pencarian dan Filter -->
         <form action="{{ route('bookings.manage.index') }}" method="GET" class="mb-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-                    <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Search by name, phone, vehicle..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Cari</label>
+                    <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Cari berdasarkan nama, telepon, kendaraan..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 
                 <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status Pembayaran</label>
                     <select name="status" id="status" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         @foreach($paymentStatuses as $value => $label)
                             <option value="{{ $value }}" {{ request('status') == $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -78,12 +78,12 @@
                 </div>
                 
                 <div>
-                    <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">From Date</label>
+                    <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Dari Tanggal</label>
                     <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 
                 <div>
-                    <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">To Date</label>
+                    <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Sampai Tanggal</label>
                     <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
@@ -102,18 +102,18 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking ID</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dates</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Pemesanan</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelanggan</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kendaraan</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pembayaran</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($rentals ?? [] as $rental)
-                        <tr>
+                        <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='{{ route('bookings.manage.show', $rental->id) }}'">
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                                 {{ $rental->payment_order_id ?? 'N/A' }}
                             </td>
@@ -131,9 +131,9 @@
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <div class="flex flex-col">
-                                    <div class="text-sm font-medium text-gray-900">{{ $rental->rental_date ? $rental->rental_date->format('d M Y') : 'N/A' }}</div>
-                                    <div class="text-sm text-gray-500">{{ $rental->return_date ? $rental->return_date->format('d M Y') : 'N/A' }}</div>
-                                    <div class="text-xs text-gray-500">{{ $rental->duration }} days</div>
+                                    <div class="text-sm font-medium text-gray-900">{{ $rental->rental_date ? $rental->rental_date->translatedFormat('d F Y') : 'N/A' }}</div>
+                                    <div class="text-sm text-gray-500">{{ $rental->return_date ? $rental->return_date->translatedFormat('d F Y') : 'N/A' }}</div>
+                                    <div class="text-xs text-gray-500">{{ $rental->duration }} hari</div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
@@ -150,24 +150,34 @@
                                         'cancelled' => 'bg-red-100 text-red-800',
                                     ];
                                     $statusColor = $statusColors[$rental->payment_status] ?? 'bg-gray-100 text-gray-800';
+                                    
+                                    $statusTranslation = [
+                                        'pending' => 'Tertunda',
+                                        'expired' => 'Kedaluwarsa',
+                                        'paid' => 'Dibayar',
+                                        'confirmed' => 'Dikonfirmasi',
+                                        'completed' => 'Selesai',
+                                        'cancelled' => 'Dibatalkan',
+                                    ];
+                                    $statusText = $statusTranslation[$rental->payment_status] ?? ucfirst($rental->payment_status);
                                 @endphp
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColor }}">
-                                    {{ ucfirst($rental->payment_status) }}
+                                    {{ $statusText }}
                                 </span>
                                 
                                 @if($rental->isActive)
                                     <span class="ml-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Active
+                                        Aktif
                                     </span>
                                 @endif
                                 
                                 @if($rental->isOverdue)
                                     <span class="ml-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        Overdue
+                                        Terlambat
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium">
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium" onclick="event.stopPropagation()">
                                 <div class="flex space-x-2">
                                     <a href="{{ route('bookings.manage.show', $rental->id) }}" class="text-blue-600 hover:text-blue-900">
                                         <i class="fas fa-eye"></i>
@@ -178,7 +188,7 @@
                                     <form action="{{ route('bookings.manage.destroy', $rental->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this booking?')">
+                                        <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Apakah Anda yakin ingin menghapus pemesanan ini?')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -187,7 +197,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-4 py-3 text-center text-sm text-gray-500">No bookings found</td>
+                            <td colspan="7" class="px-4 py-3 text-center text-sm text-gray-500">Tidak ada pemesanan ditemukan</td>
                         </tr>
                     @endforelse
                 </tbody>

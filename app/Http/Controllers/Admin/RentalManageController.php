@@ -437,10 +437,10 @@ class RentalManageController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', 'Booking status updated successfully!');
+            return redirect()->back()->with('success', 'Status Pembayaran berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Error updating booking status: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error memperbarui status pembayaran: ' . $e->getMessage());
         }
     }
 }
