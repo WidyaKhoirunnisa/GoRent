@@ -40,7 +40,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">Mengapa Memilih Kami?</h2>
         <p class="text-gray-600 max-w-2xl mx-auto">Kami menyediakan layanan rental mobil terbaik dengan fokus pada kenyamanan, ketersediaan, dan harga yang terjangkau.</p>
     </div>
-    
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
         <!-- Availability Feature -->
         <div class="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group">
@@ -97,74 +97,15 @@
         </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
-        @foreach($randomVehicles as $suitsVehicle)
-        <!-- Car Card -->
-        <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-            <div class="bg-white-100 p-6 flex items-center justify-center h-56 overflow-hidden">
-                @if($suitsVehicle->image)
-                    <img src="{{ asset('storage/vehicles/' . basename($suitsVehicle->image)) }}" 
-                         alt="{{ $suitsVehicle->brand }}" 
-                         class="h-40 object-contain group-hover:scale-110 transition-transform duration-500">
-                @else
-                    <img src="{{ asset('images/placeholder.svg') }}" 
-                         alt="No Image" 
-                         class="h-40 object-contain opacity-50 group-hover:scale-110 transition-transform duration-500">
-                @endif
-            </div>
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <div class="w-1/2 truncate">
-                        <h3 class="text-xl font-bold truncate">{{ $suitsVehicle->brand }}</h3>
-                        <p class="text-gray-500">{{ $suitsVehicle->type }}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-2xl font-bold text-indigo-600">Rp {{ number_format($suitsVehicle->price, 0, ',', '.') }}</p>
-                        <p class="text-sm text-gray-500">per hari</p>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-3 gap-2 mb-6">
-                    <div class="flex flex-col items-center bg-gray-50 rounded-lg p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-500 mb-1">
-                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
-                            <circle cx="7" cy="17" r="2"></circle>
-                            <circle cx="17" cy="17" r="2"></circle>
-                        </svg>
-                        <span class="text-xs font-medium">{{ ucfirst($suitsVehicle->condition) }}</span>
-                    </div>
-                    
-                    <div class="flex flex-col items-center bg-gray-50 rounded-lg p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-500 mb-1">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        <span class="text-xs font-medium">{{ $suitsVehicle->year }}</span>
-                    </div>
-                    
-                    <div class="flex flex-col items-center bg-gray-50 rounded-lg p-2">
-                        <div class="flex items-center mb-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-500">
-                                <circle cx="13.5" cy="6.5" r="4"></circle>
-                                <circle cx="19" cy="17" r="2"></circle>
-                                <circle cx="6" cy="17" r="2"></circle>
-                                <path d="M16 14h-5a2 2 0 0 0-1.95 1.55L8 19h8l-1.05-3.45A2 2 0 0 0 13 14Z"></path>
-                            </svg>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-3 h-3 rounded-full mr-1 border border-gray-300" style="background-color: {{ strtolower($suitsVehicle->color) }}"></div>
-                            <span class="text-xs font-medium">{{ ucfirst($suitsVehicle->color) }}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <a href="{{ route('vehicles.details', $suitsVehicle->id) }}" class="block w-full py-3 text-center bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors duration-300">Lihat Detail</a>
-            </div>
-        </div>
-        @endforeach
-    </div>
+    <x-vehicle-grid
+        :vehicles="$randomVehicles"
+        :showPrice="true"
+        :showStatus="false"
+        :showActions="true"
+        :showRentalInfo="false"
+        :isAdmin="false"
+        :customerView="true" />
+
 </section>
 
 <!-- Facts Section -->
@@ -179,7 +120,7 @@
             <rect width="100%" height="100%" fill="url(#smallGrid)" />
         </svg>
     </div>
-    
+
     <div class="container mx-auto px-4 relative">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Facts In Numbers</h2>
@@ -269,7 +210,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">Apa Kata Pelanggan Kami</h2>
         <p class="text-gray-600 max-w-2xl mx-auto">Dengarkan pengalaman pelanggan yang telah menggunakan layanan rental mobil kami.</p>
     </div>
-    
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
             <div class="flex items-center mb-6">
@@ -301,7 +242,7 @@
             </div>
             <p class="text-gray-600">"Pelayanan sangat memuaskan. Mobil bersih dan terawat dengan baik. Proses pemesanan juga sangat mudah dan cepat. Pasti akan kembali lagi!"</p>
         </div>
-        
+
         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
             <div class="flex items-center mb-6">
                 <div class="mr-4">
@@ -332,7 +273,7 @@
             </div>
             <p class="text-gray-600">"Harga sangat terjangkau untuk kualitas mobil yang diberikan. Customer service juga sangat responsif dan membantu. Recommended!"</p>
         </div>
-        
+
         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
             <div class="flex items-center mb-6">
                 <div class="mr-4">

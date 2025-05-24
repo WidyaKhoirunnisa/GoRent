@@ -161,7 +161,7 @@
                     <div class="bg-gray-50 rounded-2xl p-6 mb-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                                <x-input-label for="name" >Nama Lengkap</x-input-label>
                                 <input type="text" id="name" name="name"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                                     value="{{ old('name', $customer ? $customer->name : '') }}"
@@ -173,7 +173,7 @@
                             </div>
 
                             <div>
-                                <label for="nik" class="block text-sm font-medium text-gray-700 mb-1">Nomor KTP (NIK)</label>
+                                <x-input-label for="nik" >Nomor KTP (NIK)</x-input-label>
                                 <input type="text" id="nik" name="nik"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                                     value="{{ old('nik', $customer ? $customer->nik : '') }}"
@@ -185,7 +185,7 @@
                             </div>
 
                             <div>
-                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
+                                <x-input-label for="phone" >Nomor Telepon</x-input-label>
                                 <input type="text" id="phone" name="phone"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                                     value="{{ old('phone', $customer ? $customer->phone : '') }}"
@@ -197,7 +197,7 @@
                             </div>
 
                             <div>
-                                <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                                <x-input-label for="gender" >Jenis Kelamin</x-input-label>
                                 <select id="gender" name="gender"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                                     required
@@ -212,7 +212,7 @@
                             </div>
 
                             <div class="md:col-span-2">
-                                <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                                <x-input-label for="address" >Alamat</x-input-label>
                                 <textarea id="address" name="address" rows="3"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                                     required
@@ -227,9 +227,9 @@
                                 <input id="update_profile" name="update_profile" type="checkbox"
                                     class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded transition-colors"
                                     x-bind:disabled="expired">
-                                <label for="update_profile" class="ml-2 block text-sm text-gray-700">
+                                <x-input-label for="update_profile" class="ml-2 block text-sm text-gray-700">
                                     Perbarui profil saya dengan informasi ini
-                                </label>
+                                </x-input-label>
                             </div>
                             @endauth
                         </div>
@@ -240,7 +240,7 @@
                                     x-bind:disabled="expired">
                             </div>
                             <div class="ml-3 text-sm">
-                                <label for="terms" class="font-medium text-gray-700">Saya menyetujui syarat dan ketentuan penyewaan</label>
+                                <x-input-label for="terms" class="font-medium text-gray-700">Saya menyetujui syarat dan ketentuan penyewaan</x-input-label>
                                 <p class="text-gray-500 mt-1">Dengan mencentang kotak ini, Anda menyetujui <a href="#" class="text-indigo-600 hover:text-indigo-500 underline">Syarat Layanan</a> dan <a href="#" class="text-indigo-600 hover:text-indigo-500 underline">Kebijakan Privasi</a> kami.</p>
                             </div>
                         </div>

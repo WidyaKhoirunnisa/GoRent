@@ -26,7 +26,7 @@
                     
                     <div class="space-y-4">
                         <div>
-                            <label for="user_id" class="block text-sm font-medium text-gray-700 mb-1">Akun Pengguna</label>
+                            <x-input-label for="user_id" >Akun Pengguna</x-input-label>
                             <select name="user_id" id="user_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                                 <option value="">Pilih Pengguna</option>
                                 @foreach($users as $user)
@@ -41,7 +41,7 @@
                         </div>
                         
                         <div>
-                            <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Pelanggan</label>
+                            <x-input-label for="customer_name" >Nama Pelanggan</x-input-label>
                             <input type="text" name="customer_name" id="customer_name" value="{{ old('customer_name', $rental->customer_name) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             @error('customer_name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -49,7 +49,7 @@
                         </div>
                         
                         <div>
-                            <label for="customer_nik" class="block text-sm font-medium text-gray-700 mb-1">NIK (Nomor Induk Kependudukan)</label>
+                            <x-input-label for="customer_nik" >NIK (Nomor Induk Kependudukan)</x-input-label>
                             <input type="text" name="customer_nik" id="customer_nik" value="{{ old('customer_nik', $rental->customer_nik) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             @error('customer_nik')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -57,7 +57,7 @@
                         </div>
                         
                         <div>
-                            <label for="customer_phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
+                            <x-input-label for="customer_phone" >Nomor Telepon</x-input-label>
                             <input type="text" name="customer_phone" id="customer_phone" value="{{ old('customer_phone', $rental->customer_phone) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             @error('customer_phone')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -65,7 +65,7 @@
                         </div>
                         
                         <div>
-                            <label for="customer_gender" class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                            <x-input-label for="customer_gender" >Jenis Kelamin</x-input-label>
                             <select name="customer_gender" id="customer_gender" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                                 <option value="">Pilih Jenis Kelamin</option>
                                 <option value="male" {{ old('customer_gender', $rental->customer_gender) == 'male' ? 'selected' : '' }}>Laki-laki</option>
@@ -77,7 +77,7 @@
                         </div>
                         
                         <div>
-                            <label for="customer_address" class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                            <x-input-label for="customer_address" >Alamat</x-input-label>
                             <textarea name="customer_address" id="customer_address" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>{{ old('customer_address', $rental->customer_address) }}</textarea>
                             @error('customer_address')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -91,7 +91,7 @@
                     
                     <div class="space-y-4">
                         <div>
-                            <label for="vehicle_id" class="block text-sm font-medium text-gray-700 mb-1">Kendaraan</label>
+                            <x-input-label for="vehicle_id" >Kendaraan</x-input-label>
                             <select name="vehicle_id" id="vehicle_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                                 <option value="">Pilih Kendaraan</option>
                                 @foreach($vehicles as $vehicle)
@@ -106,7 +106,7 @@
                         </div>
                         
                         <div>
-                            <label for="rental_date" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Sewa</label>
+                            <x-input-label for="rental_date" >Tanggal Sewa</x-input-label>
                             <input type="datetime-local" name="rental_date" id="rental_date" value="{{ old('rental_date', $rental->rental_date ? $rental->rental_date->format('Y-m-d\TH:i') : '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             @error('rental_date')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -114,7 +114,7 @@
                         </div>
                         
                         <div>
-                            <label for="return_date" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Kembali</label>
+                            <x-input-label for="return_date" >Tanggal Kembali</x-input-label>
                             <input type="datetime-local" name="return_date" id="return_date" value="{{ old('return_date', $rental->return_date ? $rental->return_date->format('Y-m-d\TH:i') : '') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             @error('return_date')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -122,7 +122,7 @@
                         </div>
                         
                         <div>
-                            <label for="payment_status" class="block text-sm font-medium text-gray-700 mb-1">Status Pembayaran</label>
+                            <x-input-label for="payment_status" >Status Pembayaran</x-input-label>
                             <select name="payment_status" id="payment_status" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                                 <option value="pending" {{ old('payment_status', $rental->payment_status) == 'pending' ? 'selected' : '' }}>Menunggu</option>
                                 <option value="expired" {{ old('payment_status', $rental->payment_status) == 'expired' ? 'selected' : '' }}>Kadaluarsa</option>
@@ -137,7 +137,7 @@
                         </div>
                         
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">ID Pesanan</label>
+                            <x-input-label >ID Pesanan</x-input-label>
                             <div class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
                                 {{ $rental->payment_order_id ?? 'Tidak tersedia' }}
                             </div>

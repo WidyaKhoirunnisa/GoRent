@@ -101,27 +101,27 @@
                     <form action="" method="POST">
                         @csrf
                         <div class="mb-6">
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                            <x-input-label for="name" >Nama Lengkap</x-input-label>
                             <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         
                         <div class="mb-6">
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <x-input-label for="email" >Email</x-input-label>
                             <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         
                         <div class="mb-6">
-                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
+                            <x-input-label for="phone" >Nomor Telepon</x-input-label>
                             <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         
                         <div class="mb-6">
-                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subjek</label>
+                            <x-input-label for="subject" >Subjek</x-input-label>
                             <input type="text" id="subject" name="subject" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         
                         <div class="mb-6">
-                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Pesan</label>
+                            <x-input-label for="message" >Pesan</x-input-label>
                             <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required></textarea>
                         </div>
                         

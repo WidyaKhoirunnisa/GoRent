@@ -172,15 +172,34 @@
                     <!-- Special Status Buttons -->
                     @if($rental->payment_status != 'cancelled' && $rental->payment_status != 'expired')
                     <div class="mt-6 flex justify-end space-x-3">
-                        <form action="{{ route('bookings.update-status', $rental->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="payment_status" value="cancelled">
-                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-                                onclick="return confirm('Apakah Anda yakin ingin membatalkan pemesanan ini?')">
-                                Batalkan Pemesanan
-                            </button>
-                        </form>
+                        <x-modal>
+                            <x-slot name="trigger">
+                                <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
+                                    Batalkan Pemesanan
+                                </button>
+                            </x-slot>
+
+                            <h2 class="text-xl font-bold mb-4">Konfirmasi Pembatalan</h2>
+                            <p class="mb-6">Apakah Anda yakin ingin membatalkan Pemesanan ini?</p>
+                            <div class="flex justify-end gap-4">
+                                <button
+                                    @click="open = false"
+                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded">
+                                    Batal
+                                </button>
+
+                                <form action="{{ route('bookings.update-status', $rental->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="payment_status" value="cancelled">
+                                    <button
+                                        type="submit"
+                                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                        Batalkan
+                                    </button>
+                                </form>
+                            </div>
+                        </x-modal>
 
                         @if($rental->payment_status == 'pending')
                         <form action="{{ route('bookings.update-status', $rental->id) }}" method="POST">
@@ -201,13 +220,33 @@
                     <a href="{{ route('bookings.manage.edit', $rental->id) }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                         <i class="fas fa-edit mr-2"></i> Edit Pemesanan
                     </a>
-                    <form action="{{ route('bookings.manage.destroy', $rental->id) }}" method="POST" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" onclick="return confirm('Apakah Anda yakin ingin menghapus pemesanan ini?')">
-                            <i class="fas fa-trash mr-2"></i> Hapus Pemesanan
-                        </button>
-                    </form>
+                    <x-modal>
+                        <x-slot name="trigger">
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                <i class="fas fa-trash mr-2"></i> Hapus Pemesanan
+                            </button>
+                        </x-slot>
+
+                        <h2 class="text-xl font-bold mb-4">Konfirmasi Penghapusan</h2>
+                        <p class="mb-6">Apakah Anda yakin ingin menghapus Pemesanan ini? Tindakan ini tidak dapat dibatalkan.</p>
+                        <div class="flex justify-end gap-4">
+                            <button
+                                @click="open = false"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded">
+                                Batal
+                            </button>
+
+                            <form action="{{ route('bookings.manage.destroy', $rental->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button
+                                    type="submit"
+                                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                    Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </x-modal>
                 </div>
             </div>
         </div>

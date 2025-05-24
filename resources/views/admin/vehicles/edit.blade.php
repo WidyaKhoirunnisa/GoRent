@@ -36,7 +36,7 @@
                 <!-- Kolom Kiri -->
                 <div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Merek/Model</label>
+                        <x-input-label >Merek/Model</x-input-label>
                         <div class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-700">
                             {{ $vehicle->brand }}
                         </div>
@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kendaraan</label>
+                        <x-input-label >Jenis Kendaraan</x-input-label>
                         <div class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-700 capitalize">
                             {{ $vehicle->type }}
                         </div>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
+                        <x-input-label >Tahun</x-input-label>
                         <div class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-700">
                             {{ $vehicle->year }}
                         </div>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Plat Nomor</label>
+                        <x-input-label >Plat Nomor</x-input-label>
                         <div class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-700">
                             {{ $vehicle->no_plat }}
                         </div>
@@ -71,7 +71,7 @@
                 <!-- Kolom Kanan -->
                 <div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Warna</label>
+                        <x-input-label >Warna</x-input-label>
                         <div class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-700 flex items-center">
                             <div class="w-4 h-4 rounded-full mr-2 border border-gray-300" style="background-color: {{ strtolower($vehicle->color) }};"></div>
                             @php
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="condition" class="block text-sm font-medium text-gray-700 mb-1">Kondisi</label>
+                        <x-input-label for="condition" >Kondisi</x-input-label>
                         <select name="condition" id="condition" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="updateAvailability()">
                             <option value="Normal" {{ old('condition', $vehicle->condition) == 'Normal' ? 'selected' : '' }}>Normal</option>
                             <option value="Service" {{ old('condition', $vehicle->condition) == 'Service' ? 'selected' : '' }}>Service</option>
@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Harga Sewa (per hari)</label>
+                        <x-input-label for="price" >Harga Sewa (per hari)</x-input-label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="text-gray-500">Rp</span>
@@ -117,7 +117,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="ready" class="block text-sm font-medium text-gray-700 mb-1">Ketersediaan</label>
+                        <x-input-label for="ready" >Ketersediaan</x-input-label>
                         <select name="ready" id="ready" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="1" {{ old('ready', $vehicle->ready ? '1' : '0') == '1' ? 'selected' : '' }}>Tersedia</option>
                             <option value="0" {{ old('ready', $vehicle->ready ? '1' : '0') == '0' ? 'selected' : '' }}>Tidak Tersedia</option>
@@ -130,7 +130,7 @@
             <!-- Bagian Gambar Kendaraan -->
             @if($vehicle->image)
             <div class="mt-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Kendaraan Saat Ini</label>
+                <x-input-label class="block text-sm font-medium text-gray-700 mb-2">Gambar Kendaraan Saat Ini</x-input-label>
                 <div class="mt-1 flex justify-center p-4 border border-gray-300 rounded-md">
                     <img src="{{ asset('storage/'.$vehicle->image) }}" alt="{{ $vehicle->brand }}" class="h-48 object-contain">
                 </div>

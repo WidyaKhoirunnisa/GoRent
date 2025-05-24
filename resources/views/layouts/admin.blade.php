@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoRent Admin - @yield('title', 'Dashboard')</title>
+    <link rel="icon" href="{{ asset('images/logo/new_logo.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,6 +17,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+    <style>
+        /* Pastikan x-cloak bekerja dengan baik */
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Pastikan modal content selalu putih */
+        .bg-white {
+            background-color: white !important;
+        }
+
+        /* Pastikan modal content berada di atas overlay */
+        .modal-content {
+            z-index: 70;
+            position: relative;
+        }
+
+        /* Pastikan overlay berada di bawah modal content */
+        .modal-overlay {
+            z-index: 60;
+        }
+    </style>
 
 </head>
 

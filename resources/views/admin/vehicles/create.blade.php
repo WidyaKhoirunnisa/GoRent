@@ -37,13 +37,13 @@
                 <!-- Kolom Kiri -->
                 <div>
                     <div class="mb-4">
-                        <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">Merek/Model <span class="text-red-500">*</span></label>
+                        <x-input-label for="brand">Merek/Model <span class="text-red-500">*</x-input-label>
                         <input type="text" name="brand" id="brand" value="{{ old('brand') }}" placeholder="Contoh: Toyota Avanza"
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     </div>
 
                     <div class="mb-4">
-                        <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Jenis Kendaraan <span class="text-red-500">*</span></label>
+                        <x-input-label for="type">Jenis Kendaraan <span class="text-red-500">*</span></x-input-label>
                         <select name="type" id="type" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             <option value="">Pilih Jenis Kendaraan</option>
                             <option value="sedan" {{ old('type') == 'sedan' ? 'selected' : '' }}>Sedan</option>
@@ -55,13 +55,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="year" class="block text-sm font-medium text-gray-700 mb-1">Tahun <span class="text-red-500">*</span></label>
+                        <x-input-label for="year">Tahun <span class="text-red-500">*</span></x-input-label>
                         <input type="number" name="year" id="year" value="{{ old('year') }}" placeholder="Contoh: 2022"
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     </div>
 
                     <div class="mb-4">
-                        <label for="no_plat" class="block text-sm font-medium text-gray-700 mb-1">Nomor Polisi <span class="text-red-500">*</span></label>
+                        <x-input-label for="no_plat">Nomor Polisi <span class="text-red-500">*</span></x-input-label>
                         <input type="text" name="no_plat" id="no_plat" value="{{ old('no_plat') }}" placeholder="Contoh: B 1234 ABC"
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     </div>
@@ -70,7 +70,7 @@
                 <!-- Kolom Kanan -->
                 <div>
                     <div class="mb-4">
-                        <label for="color" class="block text-sm font-medium text-gray-700 mb-1">Warna <span class="text-red-500">*</span></label>
+                        <x-input-label for="color">Warna <span class="text-red-500">*</span></x-input-label>
                         <div class="flex items-center space-x-2">
                             <select name="color" id="color" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required onchange="updateColorPreview()">
                                 <option value="">Pilih Warna</option>
@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="condition" class="block text-sm font-medium text-gray-700 mb-1">Kondisi <span class="text-red-500">*</span></label>
+                        <x-input-label for="condition">Kondisi <span class="text-red-500">*</span></x-input-label>
                         <select name="condition" id="condition" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required onchange="updateAvailability()">
                             <option value="Normal" {{ old('condition', 'Normal') == 'Normal' ? 'selected' : '' }}>Normal</option>
                             <option value="Service" {{ old('condition') == 'Service' ? 'selected' : '' }}>Servis</option>
@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Harga Sewa (per hari) <span class="text-red-500">*</span></label>
+                        <x-input-label for="price">Harga Sewa (per hari) <span class="text-red-500">*</span></x-input-label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <span class="text-gray-500">Rp</span>
@@ -112,7 +112,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Ketersediaan <span class="text-red-500">*</span></label>
+                        <x-input-label>Ketersediaan <span class="text-red-500">*</span></x-input-label>
                         <div class="relative">
                             <div id="availability_display" class="flex items-center p-2 rounded-md {{ old('condition') == 'Service' ? 'bg-red-50 border border-red-200' : 'bg-green-50 border border-green-200' }}">
                                 <span id="availability_text" class="{{ old('condition') == 'Service' ? 'text-red-700' : 'text-green-700' }} font-medium">
@@ -129,7 +129,7 @@
 
             <!-- Upload Gambar -->
             <div class="mt-6">
-                <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Gambar Kendaraan <span class="text-red-500">*</span></label>
+                <x-input-label for="image">Gambar Kendaraan <span class="text-red-500">*</span></x-input-label>
                 <div id="dropzone"
                     class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-blue-400 transition">
                     <div class="space-y-1 text-center">

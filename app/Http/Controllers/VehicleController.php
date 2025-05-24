@@ -15,7 +15,7 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request->query('type');
+        $type = $request->query('type', 'all');
 
         $query = Vehicles::query()->where('ready', true);
 
@@ -26,13 +26,26 @@ class VehicleController extends Controller
 
         $vehicles = $query->get();
 
+        // Filter pencarian
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('brand', 'like', "%{$search}%")
+                    ->orWhere('type', 'like', "%{$search}%");
+            });
+        }
+
         // Get unique vehicle types for the filter buttons
         $vehicleTypes = Vehicles::distinct()->pluck('type')->toArray();
 
+        // Pagination
+        $perPage = $request->input('per_page', 12);
+        $vehicles = $query->paginate($perPage);
+        
         return view('vehicles.index', [
             'vehicles' => $vehicles,
             'vehicleTypes' => $vehicleTypes,
-            'activeType' => $type ?? 'all'
+            'activeType' => $type
         ]);
     }
 

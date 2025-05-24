@@ -1,18 +1,18 @@
 @extends('layouts.admin')
 
-@section('title', 'Select Rental Dates')
-@section('header', 'Select Rental Dates')
+@section('title', 'Pilih Tanggal Rental')
+@section('header', 'Pilih Tanggal Rental')
 
 @section('content')
 <div class="mb-6">
     <a href="{{ route('bookings.manage.create.user-selection') }}" class="flex items-center text-blue-600 hover:text-blue-900">
-        <i class="fas fa-arrow-left mr-2"></i> Back to Customer Selection
+        <i class="fas fa-arrow-left mr-2"></i> Kembali ke Pemilihan Customer
     </a>
 </div>
 
 <div class="bg-white rounded-lg shadow-md overflow-hidden">
     <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-800">Select Rental Dates</h2>
+        <h2 class="text-lg font-semibold text-gray-800">Pilih Tanggal Rental</h2>
     </div>
     
     <div class="p-6">
@@ -23,7 +23,7 @@
                         <i class="fas fa-exclamation-circle text-red-500"></i>
                     </div>
                     <div class="ml-3">
-                        <p class="text-sm text-red-700 font-medium">Please correct the following errors:</p>
+                        <p class="text-sm text-red-700 font-medium">Harap perbaiki kesalahan berikut:</p>
                         <ul class="mt-1 text-sm text-red-700 list-disc list-inside">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -40,7 +40,7 @@
                     <i class="fas fa-user text-blue-500"></i>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-700">Selected Customer:</p>
+                    <p class="text-sm font-medium text-gray-700">Customer di[ilih]:</p>
                     <p class="text-lg font-semibold text-gray-900">{{ $user->name }}</p>
                     <p class="text-sm text-gray-500">{{ $user->email }}</p>
                 </div>
@@ -52,13 +52,13 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label for="rental_date" class="block text-sm font-medium text-gray-700 mb-1">Rental Date</label>
+                    <x-input-label for="rental_date" >Tanggal Sewa</x-input-label>
                     <input type="date" name="rental_date" id="rental_date" value="{{ old('rental_date', date('Y-m-d')) }}" 
                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
                 
                 <div>
-                    <label for="return_date" class="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
+                    <x-input-label for="return_date" >Tanggal Kembali</x-input-label>
                     <input type="date" name="return_date" id="return_date" value="{{ old('return_date', date('Y-m-d', strtotime('+1 day'))) }}" 
                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
@@ -66,7 +66,7 @@
             
             <div class="flex justify-end">
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    Next: Choose Vehicle <i class="fas fa-arrow-right ml-2"></i>
+                   Pilih Kendaraan <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
         </form>

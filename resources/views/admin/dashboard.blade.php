@@ -126,7 +126,7 @@
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
         <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
             <h2 class="text-lg font-semibold text-gray-800">Pemesanan Terbaru</h2>
-            <a href="#" class="text-sm text-blue-600 hover:underline">Lihat Semua</a>
+            <a href="{{ route('bookings.manage.index') }}" class="text-sm text-blue-600 hover:underline">Lihat Semua</a>
         </div>
         <div class="p-6">
             <div class="overflow-x-auto">
@@ -196,7 +196,7 @@
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
         <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
             <h2 class="text-lg font-semibold text-gray-800">Kendaraan Populer</h2>
-            <a href="{{ route('admin') }}" class="text-sm text-blue-600 hover:underline">Lihat Semua</a>
+            <a href="{{ route('vehicles.manage.index') }}" class="text-sm text-blue-600 hover:underline">Lihat Semua</a>
         </div>
         <div class="p-6">
             <div class="overflow-x-auto">

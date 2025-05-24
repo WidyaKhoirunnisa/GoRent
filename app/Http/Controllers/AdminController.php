@@ -14,19 +14,6 @@ use App\Models\Vehicles;
 
 class AdminController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $activeType = $request->input('type', 'all');
-    //     $query = Vehicles::query();
-
-    //     if ($activeType !== 'all') {
-    //         $query->where('type', $activeType);
-    //     }
-
-    //     $vehicles = $query->get();
-
-    //     return view('admin.adminpage', compact('vehicles', 'activeType'));
-    // }
 
     public function index()
     {
@@ -43,8 +30,6 @@ class AdminController extends Controller
         // Booking statistics
         $totalBookings = Rental::count();
         $activeRentals = Rental::whereIn('payment_status', ['paid', 'confirmed'])
-            ->where('rental_date', '<=', now())
-            ->where('return_date', '>=', now())
             ->count();
         $pendingPayments = Rental::where('payment_status', 'pending')->count();
         

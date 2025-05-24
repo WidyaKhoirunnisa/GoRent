@@ -20,7 +20,7 @@
                     
                     <div class="space-y-4">
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <x-input-label for="email" >Email</x-input-label>
                             <input type="email" name="email" id="email" value="{{ old('email') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             @error('email')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -28,7 +28,7 @@
                         </div>
                         
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Kata Sandi</label>
+                            <x-input-label for="password" >Kata Sandi</x-input-label>
                             <input type="password" name="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                             @error('password')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -36,7 +36,7 @@
                         </div>
                         
                         <div>
-                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Kata Sandi</label>
+                            <x-input-label for="password_confirmation" >Konfirmasi Kata Sandi</x-input-label>
                             <input type="password" name="password_confirmation" id="password_confirmation" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     
                     <div class="space-y-4">
                         <div>
-                            <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                            <x-input-label for="customer_name" >Nama Lengkap</x-input-label>
                             <input type="text" name="customer_name" id="customer_name" value="{{ old('customer_name') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             @error('customer_name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -55,7 +55,7 @@
                         </div>
                         
                         <div>
-                            <label for="nik" class="block text-sm font-medium text-gray-700 mb-1">NIK (Nomor Induk Kependudukan)</label>
+                            <x-input-label for="nik" >NIK (Nomor Induk Kependudukan)</x-input-label>
                             <input type="text" name="nik" id="nik" value="{{ old('nik') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             @error('nik')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -63,7 +63,7 @@
                         </div>
                         
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
+                            <x-input-label for="phone" >Nomor Telepon</x-input-label>
                             <input type="text" name="phone" id="phone" value="{{ old('phone') }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             @error('phone')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -71,7 +71,7 @@
                         </div>
                         
                         <div>
-                            <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                            <x-input-label for="gender" >Jenis Kelamin</x-input-label>
                             <select name="gender" id="gender" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Pilih Jenis Kelamin</option>
                                 <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Laki-laki</option>
@@ -83,7 +83,7 @@
                         </div>
                         
                         <div>
-                            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                            <x-input-label for="address" >Alamat</x-input-label>
                             <textarea name="address" id="address" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('address') }}</textarea>
                             @error('address')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

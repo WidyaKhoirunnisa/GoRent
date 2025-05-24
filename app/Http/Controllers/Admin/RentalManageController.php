@@ -78,23 +78,23 @@ class RentalManageController extends Controller
 
     public function userSelection(Request $request)
     {
-        $query = User::with('customer')->where(function($q) {
+        $query = User::with('customer')->where(function ($q) {
             $q->where('role', '!=', 'admin')->orWhereNull('role');
         });
-        
+
         // Apply search filter if provided
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('email', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%")
-                        ->orwhere('phone', 'like', "%{$search}%")
-                        ->orWhere('nik', 'like', "%{$search}%");
-                  });
+                    ->orWhereHas('customer', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%")
+                            ->orwhere('phone', 'like', "%{$search}%")
+                            ->orWhere('nik', 'like', "%{$search}%");
+                    });
             });
         }
-        
+
         $users = $query->paginate(10);
         return view('admin.bookings.create.user-selection', compact('users'));
     }
@@ -104,9 +104,9 @@ class RentalManageController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
-        
+
         $user = User::findOrFail($request->user_id);
-        
+
         return view('admin.bookings.create.date-selection', compact('user'));
     }
 
@@ -117,53 +117,43 @@ class RentalManageController extends Controller
             'rental_date' => 'required|date',
             'return_date' => 'required|date|after_or_equal:rental_date',
         ]);
-        
+
         $user = User::findOrFail($request->user_id);
         $rentalDate = $request->rental_date;
         $returnDate = $request->return_date;
         $type = $request->type ?? 'all';
-        
+
         // Calculate rental duration
         $startDate = Carbon::parse($rentalDate);
         $endDate = Carbon::parse($returnDate);
         $rentalDuration = $startDate->diffInDays($endDate) + 1; // Include first day
-        
+
         // Start with all vehicles in normal condition
         $query = Vehicles::where('condition', 'Normal');
-        
+
         // Apply type filter if not 'all'
         if ($type !== 'all') {
             $query->where('type', $type);
         }
-        
-        // Get vehicles that are either:
-        // 1. Currently marked as ready (available)
-        // 2. Currently rented but will be available by the rental date
-        $vehicles = $query->where(function($query) use ($rentalDate, $returnDate) {
-            // Vehicles currently marked as ready
-            $query->where('ready', true)
-            
-            // OR vehicles that are currently rented but will be available
-            ->orWhereDoesntHave('rentals', function($q) use ($rentalDate, $returnDate) {
+
+        $vehicles = $query->where('ready', true)
+            ->whereDoesntHave('rentals', function ($q) use ($rentalDate, $returnDate) {
                 $q->whereIn('payment_status', ['paid', 'confirmed'])
-                  ->where(function($q) use ($rentalDate, $returnDate) {
-                      // Rental period overlaps with requested period
-                      $q->where(function($q) use ($rentalDate, $returnDate) {
-                          $q->where('rental_date', '<=', $returnDate)
+                    ->where(function ($q) use ($rentalDate, $returnDate) {
+                        $q->where('rental_date', '<=', $returnDate)
                             ->where('return_date', '>=', $rentalDate);
-                      });
-                  });
-            });
-        })->get();
-        
+                    });
+            })->get();
+
+
         // Get all vehicle types for filter
         $vehicleTypes = Vehicles::select('type')
             ->distinct()
             ->pluck('type')
             ->toArray();
-        
+
         $activeType = $type;
-        
+
         return view('admin.bookings.create.vehicle-selection', compact(
             'user',
             'vehicles',
@@ -183,23 +173,23 @@ class RentalManageController extends Controller
             'rental_date' => 'required|date',
             'return_date' => 'required|date|after_or_equal:rental_date',
         ]);
-        
+
         $user = User::with('customer')->findOrFail($request->user_id);
         $vehicle = Vehicles::findOrFail($request->vehicle_id);
         $rentalDate = Carbon::parse($request->rental_date);
         $returnDate = Carbon::parse($request->return_date);
-        
+
         // Calculate rental duration and total payment
         $days = $rentalDate->diffInDays($returnDate) + 1; // Include first day
         $totalPayment = $vehicle->price * $days;
-        
+
         return view('admin.bookings.create.complete-booking', compact(
             'user',
             'vehicle',
             'rentalDate',
             'returnDate',
             'days',
-            'totalPayment'
+            'totalPayment',
         ));
     }
 
@@ -246,7 +236,7 @@ class RentalManageController extends Controller
                 'return_date' => $request->return_date,
                 'total_payment' => $totalPayment,
                 'payment_status' => $request->payment_status,
-                'payment_order_id' => 'ORD-' . $today. '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT),
+                'payment_order_id' => 'ORD-' . $today . '-' . str_pad($nextId, 4, '0', STR_PAD_LEFT),
             ]);
 
             // If payment status is paid or confirmed, update vehicle availability

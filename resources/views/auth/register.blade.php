@@ -27,7 +27,7 @@
             @csrf
             <!-- Email -->
             <div class="space-y-2">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <x-input-label for="email" >Email</x-input-label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400">
@@ -51,7 +51,7 @@
 
             <!-- Password -->
             <div class="space-y-2">
-                <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
+                <x-input-label for="password" >Kata Sandi</x-input-label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400">
@@ -74,7 +74,7 @@
 
             <!-- Confirm Password -->
             <div class="space-y-2">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi</label>
+                <x-input-label for="password_confirmation" >Konfirmasi Kata Sandi</x-input-label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400">
@@ -101,7 +101,7 @@
                     <input id="terms" name="terms" type="checkbox" required class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                 </div>
                 <div class="ml-3 text-sm">
-                    <label for="terms" class="font-medium text-gray-700">Saya menyetujui <a href="#" class="text-indigo-600 hover:text-indigo-500">Syarat dan Ketentuan</a></label>
+                    <x-input-label for="terms" class="font-medium text-gray-700">Saya menyetujui <a href="#" class="text-indigo-600 hover:text-indigo-500">Syarat dan Ketentuan</a></x-input-label>
                 </div>
             </div>
 

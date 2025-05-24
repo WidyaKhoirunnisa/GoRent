@@ -30,17 +30,17 @@
             <span>Lihat Semua Kendaraan</span>
         </a>
         
-        <!-- Pengguna Section -->
+        <!-- Customer Section -->
         <div class="mt-4">
-            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pengguna</p>
+            <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Customer</p>
         </div>
         <a href="{{ route('customers.manage.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('customers.manage.index') ? 'bg-gray-700' : '' }}">
             <i class="fas fa-users mr-3"></i>
-            <span>Semua Pengguna</span>
+            <span>Semua Customer</span>
         </a>
         <a href="{{ route('customers.manage.create') }}" class="flex items-center px-4 py-3 text-white hover:bg-gray-700 rounded-lg mb-1 {{ request()->routeIs('customers.manage.create') ? 'bg-gray-700' : '' }}">
             <i class="fas fa-user-plus mr-3"></i>
-            <span>Tambah Pengguna Baru</span>
+            <span>Tambah Customer Baru</span>
         </a>
         
         <!-- Pemesanan Section -->

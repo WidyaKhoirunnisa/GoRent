@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Pilih Pelanggan')
-@section('header', 'Pilih Pelanggan')
+@section('title', 'Pilih Customer')
+@section('header', 'Pilih Customer')
 
 @section('content')
 <div class="bg-white rounded-lg shadow-md overflow-hidden">
     <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-800">Pilih Pelanggan</h2>
+        <h2 class="text-lg font-semibold text-gray-800">Pilih Customer</h2>
     </div>
     
     <div class="p-6">
@@ -15,9 +15,9 @@
             <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm">
                 <div class="flex flex-col md:flex-row md:items-end gap-4">
                     <div class="flex-grow">
-                        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">
-                            <i class="fas fa-search text-gray-400 mr-1"></i> Cari Pelanggan
-                        </label>
+                        <x-input-label for="search">
+                            <i class="fas fa-search text-gray-400 mr-1"></i> Cari Customer
+                        </x-input-label>
                         <div class="relative rounded-md shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-user text-gray-400"></i>
@@ -65,7 +65,7 @@
             </div>
         @endif
 
-        <!-- Daftar Pelanggan -->
+        <!-- Daftar Customer -->
         @if($users->isEmpty())
             <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
                 <div class="flex">
@@ -75,23 +75,23 @@
                     <div class="ml-3">
                         <p class="text-sm text-yellow-700">
                             @if(request('search'))
-                                Tidak ada pelanggan yang cocok dengan "<strong>{{ request('search') }}</strong>". Silakan coba pencarian lain atau 
-                                <a href="{{ route('customers.manage.create') }}" class="font-medium underline">tambah pelanggan baru</a>.
+                                Tidak ada Customer yang cocok dengan "<strong>{{ request('search') }}</strong>". Silakan coba pencarian lain atau 
+                                <a href="{{ route('customers.manage.create') }}" class="font-medium underline">tambah Customer baru</a>.
                             @else
-                                Tidak ada pelanggan ditemukan. Silakan <a href="{{ route('customers.manage.create') }}" class="font-medium underline">tambah pelanggan baru</a>.
+                                Tidak ada Customer ditemukan. Silakan <a href="{{ route('customers.manage.create') }}" class="font-medium underline">tambah Customer baru</a>.
                             @endif
                         </p>
                     </div>
                 </div>
             </div>
         @else
-            <!-- Tabel Pelanggan -->
+            <!-- Tabel Customer -->
             <div class="mb-6">
                 <h3 class="text-md font-medium text-gray-700 mb-3">
                     @if(request('search'))
                         Hasil Pencarian untuk "{{ request('search') }}"
                     @else
-                        Pelanggan Terbaru
+                        Customer Terbaru
                     @endif
                 </h3>
                 <div class="border border-gray-200 rounded-md overflow-hidden">
@@ -134,7 +134,7 @@
 
         <div class="flex justify-between mt-6">
             <a href="{{ route('customers.manage.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                <i class="fas fa-plus mr-2"></i> Tambah Pelanggan Baru
+                <i class="fas fa-plus mr-2"></i> Tambah Customer Baru
             </a>
         </div>
 

@@ -140,7 +140,7 @@
             <!-- Team Member 1 -->
             <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                 <div class="h-64 bg-gray-200 overflow-hidden">
-                    <img src="{{ asset('images/about/lebron.png') }}" alt="CEO" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/about/default-avatar.png') }}" alt="CEO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6 text-center">
                     <h3 class="text-xl font-bold mb-1 hover:text-indigo-600 transition-colors">Widya Khoirunnisa</h3>
@@ -166,7 +166,7 @@
             <!-- Team Member 2 -->
             <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                 <div class="h-64 bg-gray-200 overflow-hidden">
-                    <img src="{{ asset('images/about/lebron.png') }}" alt="COO" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/about/default-avatar.png') }}" alt="COO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6 text-center">
                     <h3 class="text-xl font-bold mb-1 hover:text-indigo-600 transition-colors">Rizky Pratama</h3>
@@ -192,7 +192,7 @@
             <!-- Team Member 3 -->
             <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                 <div class="h-64 bg-gray-200 overflow-hidden">
-                    <img src="{{ asset('images/about/lebron.png') }}" alt="CTO" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/about/default-avatar.png') }}" alt="CTO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6 text-center">
                     <h3 class="text-xl font-bold mb-1 hover:text-indigo-600 transition-colors">Yanuar AlHisyami</h3>
@@ -218,7 +218,7 @@
             <!-- Team Member 4 -->
             <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                 <div class="h-64 bg-gray-200 overflow-hidden">
-                    <img src="{{ asset('images/about/lebron.png') }}" alt="CMO" class="w-full h-full object-cover">
+                    <img src="{{ asset('images/about/default-avatar.png') }}" alt="CMO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6 text-center">
                     <h3 class="text-xl font-bold mb-1 hover:text-indigo-600 transition-colors">Rafi Prathama</h3>

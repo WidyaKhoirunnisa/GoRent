@@ -16,66 +16,71 @@ class CustomerManageController extends Controller
     public function index(Request $request)
     {
         $query = User::with('customer')
-            ->where('role', '!=', 'admin')
-            ->orWhereNull('role');
+            ->where(function ($q) {
+                $q->where('role', '!=', 'admin')
+                    ->orWhereNull('role');
+            });
 
-        // Search functionality
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%")
-                        ->orWhere('phone', 'like', "%{$search}%")
-                        ->orWhere('nik', 'like', "%{$search}%");
-                  });
+            $query->where(function ($q) use ($search) {
+                $q->orWhere('email', 'like', "%{$search}%")
+                    ->orWhereHas('customer', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%")
+                            ->orWhere('nik', 'like', "%{$search}%");
+                    });
             });
         }
 
         $users = $query->latest()->paginate(10);
-        
-        // Get statistics
-        $totalUsers = User::where('role', '!=', 'admin')->orWhereNull('role')->count();
+
+        $totalUsers = User::where(function ($q) {
+            $q->where('role', '!=', 'admin')
+                ->orWhereNull('role');
+        })->count();
+
         $totalCustomers = Customer::count();
-        $activeCustomers = Customer::whereHas('rentals', function($query) {
+
+        $activeCustomers = Customer::whereHas('rentals', function ($query) {
             $query->whereIn('payment_status', ['paid', 'confirmed'])
                 ->where('rental_date', '<=', now())
                 ->where('return_date', '>=', now());
         })->count();
-        
+
         return view('admin.customers.index', compact(
-            'users', 
-            'totalUsers', 
-            'totalCustomers', 
+            'users',
+            'totalUsers',
+            'totalCustomers',
             'activeCustomers'
         ));
     }
 
+
     public function show($id)
     {
-        $user = User::with(['customer', 'rentals' => function($query) {
+        $user = User::with(['customer', 'rentals' => function ($query) {
             $query->latest();
         }])->findOrFail($id);
-        
+
         $activeRentals = $user->rentals()
             ->whereIn('payment_status', ['paid', 'confirmed'])
             ->where('rental_date', '<=', now())
             ->where('return_date', '>=', now())
             ->get();
-            
+
         $completedRentals = $user->rentals()
             ->where('payment_status', 'completed')
             ->latest()
             ->limit(5)
             ->get();
-            
+
         $pendingRentals = $user->rentals()
             ->whereIn('payment_status', ['pending', 'expired'])
             ->latest()
             ->limit(5)
             ->get();
-        
+
         return view('admin.customers.show', compact('user', 'activeRentals', 'completedRentals', 'pendingRentals'));
     }
 
@@ -98,7 +103,7 @@ class CustomerManageController extends Controller
 
         // Start a database transaction
         DB::beginTransaction();
-        
+
         try {
             // Create the user
             $user = User::create([
@@ -119,7 +124,7 @@ class CustomerManageController extends Controller
             ]);
 
             DB::commit();
-            
+
             return redirect()->route('customers.manage.index')->with('success', 'User created successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -136,7 +141,7 @@ class CustomerManageController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        
+
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|string|min:8|confirmed',
@@ -149,7 +154,7 @@ class CustomerManageController extends Controller
 
         // Start a database transaction
         DB::beginTransaction();
-        
+
         try {
             $user->email = $request->email;
             if ($request->filled('password')) {
@@ -168,7 +173,7 @@ class CustomerManageController extends Controller
             }
 
             DB::commit();
-            
+
             return redirect()->route('customers.manage.index')->with('success', 'User updated successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -179,26 +184,26 @@ class CustomerManageController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        
+
         // Check if user has active rentals
         $activeRentals = $user->rentals()
             ->whereIn('payment_status', ['paid', 'confirmed'])
             ->where('return_date', '>=', now())
             ->exists();
-            
+
         if ($activeRentals) {
             return redirect()->back()->with('error', 'Cannot delete user with active rentals.');
         }
-        
+
         // Start a database transaction
         DB::beginTransaction();
-        
+
         try {
             // Delete the user (this will cascade delete the customer profile due to foreign key constraint)
             $user->delete();
-            
+
             DB::commit();
-            
+
             return redirect()->route('customers.manage.index')->with('success', 'User deleted successfully!');
         } catch (\Exception $e) {
             DB::rollBack();

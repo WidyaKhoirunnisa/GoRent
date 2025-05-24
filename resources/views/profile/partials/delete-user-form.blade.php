@@ -46,8 +46,7 @@
         <x-danger-button
             x-data=""
             x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-            class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 transition-all duration-200 flex items-center"
-        >
+            class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 transition-all duration-200 flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -58,21 +57,21 @@
         </x-danger-button>
     </div>
 
-    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+    <x-modal id="confirm-user-deletion">
+        <x-slot name="trigger">
+            {{-- Kosongkan jika kamu trigger pakai JavaScript atau Tombol di luar modal --}}
+        </x-slot>
+
         <div class="p-6">
             <div class="flex items-center mb-4 text-red-600 dark:text-red-400">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 mr-3">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
+                <svg ... class="w-8 h-8 mr-3">...</svg>
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                     {{ __('Apakah Anda yakin ingin menghapus akun Anda?') }}
                 </h2>
             </div>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                {{ __('Setelah akun Anda dihapus, semua sumber daya dan data akan dihapus secara permanen. Silakan masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin menghapus akun Anda secara permanen.') }}
+                {{ __('Setelah akun Anda dihapus anda tidak bisa mengembalikan lagi') }}
             </p>
 
             <form method="post" action="{{ route('profile.destroy') }}" class="mt-6">
@@ -84,25 +83,21 @@
 
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
+                            <svg ... class="w-5 h-5 text-gray-400">...</svg>
                         </div>
                         <x-text-input
                             id="password"
                             name="password"
                             type="password"
                             class="pl-10 block w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 focus:border-red-500 focus:ring-red-500 transition-colors"
-                            placeholder="{{ __('Kata Sandi') }}"
-                        />
+                            placeholder="{{ __('Kata Sandi') }}" />
                     </div>
 
                     <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    <x-secondary-button x-on:click="$dispatch('close')" class="mr-3">
+                    <x-secondary-button x-on:click="$dispatch('close-modal', 'confirm-user-deletion')" class="mr-3">
                         {{ __('Batal') }}
                     </x-secondary-button>
 
@@ -113,4 +108,5 @@
             </form>
         </div>
     </x-modal>
+
 </section>

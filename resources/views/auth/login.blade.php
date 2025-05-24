@@ -28,7 +28,7 @@
 
             <!-- Email -->
             <div class="space-y-2">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <x-input-label for="email" >Email</x-input-label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400">
@@ -53,7 +53,7 @@
 
             <!-- Password -->
             <div class="space-y-2">
-                <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
+                <x-input-label for="password" >Kata Sandi</x-input-label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-400">
@@ -76,10 +76,10 @@
 
             <!-- Remember Me -->
             <div class="flex items-center justify-between">
-                <label for="remember_me" class="inline-flex items-center">
+                <x-input-label for="remember_me" class="inline-flex items-center">
                     <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
                     <span class="ml-2 text-sm text-gray-600">{{ __('Ingat saya') }}</span>
-                </label>
+                </x-input-label>
 
                 @if (Route::has('password.request'))
                 <a class="text-sm font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('password.request') }}">
