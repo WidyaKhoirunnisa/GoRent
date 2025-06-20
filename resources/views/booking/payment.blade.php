@@ -16,7 +16,6 @@
         </div>
 
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
-            <!-- Header Section -->
             <div class="p-8 bg-gradient-to-r from-indigo-600 to-purple-700 text-white">
                 <div class="flex items-center">
                     <div class="bg-white/20 p-3 rounded-full mr-4">
@@ -31,7 +30,6 @@
                 </div>
             </div>
 
-            <!-- Payment Deadline Notice -->
             <div class="p-5 bg-amber-50 border-b border-amber-100">
                 <div class="flex items-center">
                     <div class="bg-amber-100 p-2 rounded-full mr-4">
@@ -47,7 +45,6 @@
             </div>
 
             <div class="p-8">
-                <!-- Order Summary -->
                 <div class="mb-8">
                     <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2 text-indigo-600">
@@ -107,7 +104,6 @@
                     </div>
                 </div>
 
-                <!-- Payment Methods -->
                 <div class="mb-8">
                     <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-2 text-indigo-600">
@@ -120,51 +116,9 @@
                     <form action="{{ route('booking.process-payment', $rental->id) }}" method="POST" class="bg-gray-50 rounded-2xl p-6">
                         @csrf
                         
-                        <div class="mb-6">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="border border-gray-200 rounded-xl p-4 bg-white cursor-pointer hover:border-indigo-500 transition-colors relative payment-option">
-                                    <input type="radio" name="payment_method" id="payment_bank" value="bank_transfer" class="sr-only payment-radio" checked>
-                                    <label for="payment_bank" class="flex items-center cursor-pointer">
-                                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center payment-radio-circle">
-                                            <div class="w-3 h-3 bg-indigo-600 rounded-full hidden payment-radio-dot"></div>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-gray-900">Transfer Bank</p>
-                                            <p class="text-sm text-gray-500">BCA, BNI, Mandiri, BRI</p>
-                                        </div>
-                                    </label>
-                                </div>
-                                
-                                <div class="border border-gray-200 rounded-xl p-4 bg-white cursor-pointer hover:border-indigo-500 transition-colors relative payment-option">
-                                    <input type="radio" name="payment_method" id="payment_ewallet" value="e_wallet" class="sr-only payment-radio">
-                                    <label for="payment_ewallet" class="flex items-center cursor-pointer">
-                                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center payment-radio-circle">
-                                            <div class="w-3 h-3 bg-indigo-600 rounded-full hidden payment-radio-dot"></div>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-gray-900">E-Wallet</p>
-                                            <p class="text-sm text-gray-500">OVO, GoPay, DANA, LinkAja</p>
-                                        </div>
-                                    </label>
-                                </div>
-                                
-                                <div class="border border-gray-200 rounded-xl p-4 bg-white cursor-pointer hover:border-indigo-500 transition-colors relative payment-option">
-                                    <input type="radio" name="payment_method" id="payment_qris" value="qris" class="sr-only payment-radio">
-                                    <label for="payment_qris" class="flex items-center cursor-pointer">
-                                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center payment-radio-circle">
-                                            <div class="w-3 h-3 bg-indigo-600 rounded-full hidden payment-radio-dot"></div>
-                                        </div>
-                                        <div>
-                                            <p class="font-medium text-gray-900">QRIS</p>
-                                            <p class="text-sm text-gray-500">Scan untuk membayar</p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <input type="hidden" name="payment_method" value="bank_transfer">
                         
-                        <!-- Bank Transfer Details -->
-                        <div id="bank_transfer_details" class="bg-white p-6 rounded-xl border border-gray-200 mb-6">
+                        <div class="bg-white p-6 rounded-xl border border-gray-200 mb-6">
                             <h3 class="font-medium text-gray-900 mb-4">Detail Transfer Bank</h3>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -194,62 +148,6 @@
                             </div>
                         </div>
                         
-                        <!-- E-Wallet Details (Hidden by default) -->
-                        <div id="e_wallet_details" class="bg-white p-6 rounded-xl border border-gray-200 mb-6 hidden">
-                            <h3 class="font-medium text-gray-900 mb-4">Detail E-Wallet</h3>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <label for="ewallet_type" class="block text-sm font-medium text-gray-700 mb-1">Pilih E-Wallet</label>
-                                    <select id="ewallet_type" name="ewallet_type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-                                        <option value="ovo">OVO</option>
-                                        <option value="gopay">GoPay</option>
-                                        <option value="dana">DANA</option>
-                                        <option value="linkaja">LinkAja</option>
-                                    </select>
-                                </div>
-                                
-                                <div>
-                                    <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
-                                    <input type="text" id="phone_number" name="phone_number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-                                </div>
-                            </div>
-                            
-                            <div class="bg-indigo-50 p-4 rounded-lg">
-                                <div class="flex items-start">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <p class="text-sm text-gray-700">Anda akan menerima notifikasi pembayaran di aplikasi e-wallet Anda. Harap selesaikan pembayaran dalam waktu 1 jam.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- QRIS Details (Hidden by default) -->
-                        <div id="qris_details" class="bg-white p-6 rounded-xl border border-gray-200 mb-6 hidden">
-                            <h3 class="font-medium text-gray-900 mb-4">Pembayaran QRIS</h3>
-                            
-                            <div class="flex flex-col items-center mb-6">
-                                <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                                    <img src="/placeholder.svg?height=200&width=200" alt="QRIS Code" class="w-48 h-48 mx-auto">
-                                </div>
-                                
-                                <p class="text-sm text-gray-700 mb-2">Scan kode QR menggunakan aplikasi e-wallet atau mobile banking Anda</p>
-                                <button type="button" class="text-indigo-600 text-sm font-medium hover:text-indigo-800 transition-colors">
-                                    Unduh Kode QR
-                                </button>
-                            </div>
-                            
-                            <div class="bg-indigo-50 p-4 rounded-lg">
-                                <div class="flex items-start">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <p class="text-sm text-gray-700">Pembayaran akan dikonfirmasi secara otomatis setelah Anda menyelesaikan pembayaran.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
                         <div class="flex justify-end">
                             <button type="submit" class="px-8 py-4 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition-colors shadow-md hover:shadow-indigo-500/30 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2">
@@ -262,7 +160,6 @@
                     </form>
                 </div>
                 
-                <!-- Payment Security -->
                 <div class="bg-gray-50 rounded-2xl p-6">
                     <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -307,54 +204,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const paymentRadios = document.querySelectorAll('.payment-radio');
-        const bankDetails = document.getElementById('bank_transfer_details');
-        const ewalletDetails = document.getElementById('e_wallet_details');
-        const qrisDetails = document.getElementById('qris_details');
-        
-        function updatePaymentOptions() {
-            // Hide all payment details sections
-            bankDetails.classList.add('hidden');
-            ewalletDetails.classList.add('hidden');
-            qrisDetails.classList.add('hidden');
-            
-            // Show the selected payment details section
-            if (document.getElementById('payment_bank').checked) {
-                bankDetails.classList.remove('hidden');
-            } else if (document.getElementById('payment_ewallet').checked) {
-                ewalletDetails.classList.remove('hidden');
-            } else if (document.getElementById('payment_qris').checked) {
-                qrisDetails.classList.remove('hidden');
-            }
-            
-            // Update radio button styles
-            paymentRadios.forEach(radio => {
-                const option = radio.closest('.payment-option');
-                const dot = option.querySelector('.payment-radio-dot');
-                const circle = option.querySelector('.payment-radio-circle');
-                
-                if (radio.checked) {
-                    option.classList.add('border-indigo-500', 'bg-indigo-50');
-                    dot.classList.remove('hidden');
-                    circle.classList.add('border-indigo-600');
-                } else {
-                    option.classList.remove('border-indigo-500', 'bg-indigo-50');
-                    dot.classList.add('hidden');
-                    circle.classList.remove('border-indigo-600');
-                }
-            });
-        }
-        
-        // Add event listeners to radio buttons
-        paymentRadios.forEach(radio => {
-            radio.addEventListener('change', updatePaymentOptions);
-        });
-        
-        // Initial update
-        updatePaymentOptions();
-    });
-</script>
 @endsection
