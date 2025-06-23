@@ -268,7 +268,7 @@
         <div class="header">
             <!-- Menggunakan gambar logo yang sudah digabung dengan background dan teks -->
             <div style="text-align: center;">
-                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/logo/gorent_logo_with_text.png'))) }}"
+                <img src="{{ asset('images/logo/gorent_logo_with_text.png') }}"
                     alt="GoRent Logo"
                     class="logo-image">
             </div>
@@ -419,6 +419,12 @@
             <p>Terima kasih telah memilih GoRent Rental Mobil Terpercaya!</p>
             <p>Jika Anda memiliki pertanyaan, silakan hubungi layanan pelanggan kami di +62 812-3456-7890</p>
             <p>Bukti pembayaran ini dicetak pada {{ now()->format('d F Y, H:i') }} WIB</p>
+        </div>
+
+        <div class="no-print" style="text-align: center; padding: 20px;">
+            <button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+                Cetak Halaman Ini
+            </button>
         </div>
     </div>
 </body>
